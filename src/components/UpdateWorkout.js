@@ -2,14 +2,13 @@ import { Button, Modal, Form } from "react-bootstrap";
 import React, { useState } from "react";
 import { Notyf } from "notyf";
 
-export default function UpdateProduct({ product, fetchData }) {
+export default function UpdateWorkout({ workout, fetchData }) {
   const notyf = new Notyf();
 
-  const [productId] = useState(product._id);
+  const [workoutId] = useState(workout._id);
 
-  const [name, setName] = useState(product.name);
-  const [description, setDescription] = useState(product.description);
-  const [price, setPrice] = useState(product.price);
+  const [name, setName] = useState(workout.name);
+  const [duration, setDuration] = useState(workout.duration);
 
   const [showUpdate, setShowUpdate] = useState(false);
 
@@ -20,15 +19,14 @@ export default function UpdateProduct({ product, fetchData }) {
   const closeUpdate = () => {
     setShowUpdate(false);
     setName("");
-    setDescription("");
-    setPrice(0);
+    setDuration("");
   };
 
-  const updateProduct = (e, productId) => {
+  const updateWorkout = (e, workoutId) => {
     e.preventDefault();
 
     fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/products/${productId}/update`,
+      `${process.env.REACT_APP_API_BASE_URL}/workouts/updateWorkout/${workoutId}`,
       {
         method: "PATCH",
         headers: {
@@ -37,8 +35,7 @@ export default function UpdateProduct({ product, fetchData }) {
         },
         body: JSON.stringify({
           name: name,
-          description: description,
-          price: price,
+          duration: duration,
         }),
       }
     )
@@ -61,15 +58,14 @@ export default function UpdateProduct({ product, fetchData }) {
   return (
     <>
       <Button variant="primary" size="sm" onClick={() => openUpdate()}>
-        {" "}
-        Update{" "}
+        Update
       </Button>
 
       {/*Update Modal*/}
       <Modal show={showUpdate} onHide={closeUpdate}>
-        <Form onSubmit={(e) => updateProduct(e, productId)}>
+        <Form onSubmit={(e) => updateWorkout(e, workoutId)}>
           <Modal.Header closeButton>
-            <Modal.Title>Update Product</Modal.Title>
+            <Modal.Title>Update Workout</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
@@ -84,21 +80,11 @@ export default function UpdateProduct({ product, fetchData }) {
             </Form.Group>
 
             <Form.Group>
-              <Form.Label>Description</Form.Label>
+              <Form.Label>Duration</Form.Label>
               <Form.Control
                 type="text"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              />
-            </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
                 required
               />
             </Form.Group>

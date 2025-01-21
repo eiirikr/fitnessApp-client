@@ -31,7 +31,6 @@ export default function Login() {
       .then((data) => {
         if (data.access !== undefined) {
           localStorage.setItem("token", data.access);
-          retrieveUserDetails(data.access);
 
           setEmail("");
           setPassword("");
@@ -42,21 +41,6 @@ export default function Login() {
         } else if (data.error) {
           notyf.error("Email and Password do not match");
         }
-      });
-  }
-
-  function retrieveUserDetails(token) {
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/users/details`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser({
-          id: data._id,
-          isAdmin: data.isAdmin,
-        });
       });
   }
 
@@ -82,7 +66,7 @@ export default function Login() {
               <Form.Label>Email:</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Enter Email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -93,7 +77,7 @@ export default function Login() {
               <Form.Label>Password:</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Enter Password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -109,17 +93,17 @@ export default function Login() {
                 id="loginBtn"
                 className="w-100"
               >
-                Submit
+                Log In
               </Button>
             ) : (
               <Button
-                variant="primary"
+                variant="danger"
                 type="submit"
                 id="loginBtn"
                 className="w-100"
                 disabled
               >
-                Submit
+                Log In
               </Button>
             )}
           </CardFooter>

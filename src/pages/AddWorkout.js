@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import UserContext from "../context/UserContext";
 
 import { Notyf } from "notyf";
 
-export default function AddProduct() {
+export default function AddWorkout() {
   const notyf = new Notyf();
 
   const navigate = useNavigate();
@@ -14,15 +14,14 @@ export default function AddProduct() {
   const { user } = useContext(UserContext);
 
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
+  const [duration, setDuration] = useState("");
 
-  function createProduct(e) {
+  function createWorkout(e) {
     e.preventDefault();
 
     let token = localStorage.getItem("token");
 
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/products/`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/workouts/addWorkout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,8 +29,7 @@ export default function AddProduct() {
       },
       body: JSON.stringify({
         name: name,
-        description: description,
-        price: price,
+        duration: duration,
       }),
     })
       .then((res) => res.json())
@@ -39,21 +37,20 @@ export default function AddProduct() {
         console.log(data);
         if (data) {
           setName("");
-          setDescription("");
-          setPrice(0);
+          setDuration("");
 
-          notyf.success("Product Added");
-          navigate("/products");
+          notyf.success("Workout Added");
+          navigate("/workouts");
         } else {
           notyf.error("Error: Something Went Wrong.");
         }
       });
   }
 
-  return user.isAdmin === true ? (
+  return (
     <>
-      <h1 className="my-5 text-center">Add Product</h1>
-      <Form onSubmit={(e) => createProduct(e)}>
+      <h1 className="my-5 text-center">Add Workout</h1>
+      <Form onSubmit={(e) => createWorkout(e)}>
         <Form.Group>
           <Form.Label>Name:</Form.Label>
           <Form.Control
@@ -67,35 +64,21 @@ export default function AddProduct() {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Description:</Form.Label>
+          <Form.Label>Duration:</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Description"
+            placeholder="Enter Duration"
             required
-            value={description}
+            value={duration}
             onChange={(e) => {
-              setDescription(e.target.value);
+              setDuration(e.target.value);
             }}
           />
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Price:</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="Enter Price"
-            required
-            value={price}
-            onChange={(e) => {
-              setPrice(e.target.value);
-            }}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit" className="my-5">
-          Submit
+        <Button variant="success" type="submit" className="my-5">
+          Add Workout
         </Button>
       </Form>
     </>
-  ) : (
-    <Navigate to="/products" />
   );
 }

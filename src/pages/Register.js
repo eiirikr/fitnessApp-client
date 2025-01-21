@@ -7,10 +7,7 @@ export default function Register() {
   const notyf = new Notyf();
   const navigate = useNavigate();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -18,20 +15,16 @@ export default function Register() {
 
   useEffect(() => {
     if (
-      firstName !== "" &&
-      lastName !== "" &&
       email !== "" &&
-      mobileNo !== "" &&
       password !== "" &&
       confirmPassword !== "" &&
-      password === confirmPassword &&
-      mobileNo.length === 11
+      password === confirmPassword
     ) {
       setIsActive(true);
     } else {
       setIsActive(false);
     }
-  }, [firstName, lastName, email, mobileNo, password, confirmPassword]);
+  }, [email, password, confirmPassword]);
 
   function registerUser(e) {
     e.preventDefault();
@@ -42,20 +35,14 @@ export default function Register() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
         email: email,
-        mobileNo: mobileNo,
         password: password,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "Registered successfully") {
-          setFirstName("");
-          setLastName("");
           setEmail("");
-          setMobileNo("");
           setPassword("");
           setConfirmPassword("");
 
@@ -79,34 +66,10 @@ export default function Register() {
         <Card>
           <Card.Body>
             <Form.Group className="mb-2">
-              <Form.Label>First Name:</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your First Name"
-                required
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
-              />
-            </Form.Group>
-            <Form.Group className="mb-2">
-              <Form.Label>Last Name:</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your Last Name"
-                required
-                value={lastName}
-                onChange={(e) => {
-                  setLastName(e.target.value);
-                }}
-              />
-            </Form.Group>
-            <Form.Group className="mb-2">
               <Form.Label>Email:</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter your Email"
+                placeholder="Enter Email"
                 required
                 value={email}
                 onChange={(e) => {
@@ -115,22 +78,10 @@ export default function Register() {
               />
             </Form.Group>
             <Form.Group className="mb-2">
-              <Form.Label>Mobile No:</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter your 11-digit mobile number"
-                required
-                value={mobileNo}
-                onChange={(e) => {
-                  setMobileNo(e.target.value);
-                }}
-              />
-            </Form.Group>
-            <Form.Group className="mb-2">
               <Form.Label>Password:</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Enter your Password"
+                placeholder="Enter Password"
                 required
                 value={password}
                 onChange={(e) => {
@@ -139,7 +90,7 @@ export default function Register() {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Verify Password:</Form.Label>
+              <Form.Label>Confirm Password:</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Verify your Password"
@@ -154,12 +105,12 @@ export default function Register() {
           <CardFooter className="p-3">
             {isActive ? (
               <Button
-                variant="primary"
+                variant="success"
                 type="submit"
                 id="submitBtn"
                 className="w-100"
               >
-                Submit
+                Register
               </Button>
             ) : (
               <Button
@@ -169,7 +120,7 @@ export default function Register() {
                 className="w-100"
                 disabled
               >
-                Please enter your registration details
+                Register
               </Button>
             )}
           </CardFooter>

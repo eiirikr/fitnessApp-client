@@ -11,7 +11,7 @@ export default function AppNavBar() {
   return (
     <Navbar expand="lg" className="custom-navbar navbar">
       <Container>
-        <Navbar.Brand>Zuitt Tech Store</Navbar.Brand>
+        <Navbar.Brand>Zuitt Workout</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
@@ -19,34 +19,17 @@ export default function AppNavBar() {
               Home
             </Nav.Link>
             {user.id !== null ? (
-              user.isAdmin ? (
-                <>
-                  <Nav.Link as={NavLink} to="/products" exact="true">
-                    Products
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/addProduct" exact="true">
-                    Add Product
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/logout">
-                    Logout
-                  </Nav.Link>
-                </>
-              ) : (
-                <>
-                  <Nav.Link as={NavLink} to="/products" exact="true">
-                    Products
-                  </Nav.Link>
-                  <Nav.Link as={NavLink} to="/cart" exact="true">
-                    Cart
-                  </Nav.Link>
-                  <Nav.Link as={NavLink} to="/order-history" exact="true">
-                    All Orders
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/logout">
-                    Logout
-                  </Nav.Link>
-                </>
-              )
+              <>
+                <Nav.Link as={NavLink} to="/workouts" exact="true">
+                  Workouts
+                </Nav.Link>
+                <Nav.Link as={NavLink} to="/addWorkout" exact="true">
+                  Add Workout
+                </Nav.Link>
+                <Nav.Link as={Link} to="/logout">
+                  Logout
+                </Nav.Link>
+              </>
             ) : (
               <>
                 <Nav.Link as={NavLink} to="/login" exact="true">

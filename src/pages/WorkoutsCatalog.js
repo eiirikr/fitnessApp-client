@@ -1,25 +1,21 @@
 import { useState, useEffect, useContext, useCallback } from "react";
 import UserContext from "../context/UserContext";
-import UserView from "../components/UserView";
-import AdminView from "../components/AdminView";
+import WorkoutView from "../components/WorkoutView";
 import { Notyf } from "notyf";
 
-export default function ProductsCatalog() {
+export default function WorkoutsCatalog() {
   const { user } = useContext(UserContext);
 
-  const [products, setProducts] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(() => {
     const notyf = new Notyf();
     setLoading(true);
-    const fetchUrl =
-      user.isAdmin === true
-        ? `${process.env.REACT_APP_API_BASE_URL}/products/all`
-        : `${process.env.REACT_APP_API_BASE_URL}/products/active`;
+    const fetchUrl = `${process.env.REACT_APP_API_BASE_URL}/workouts/getMyWorkouts`;
 
     const fetchOptions =
-      user.isAdmin === true
+      user.id !== null
         ? {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -30,10 +26,10 @@ export default function ProductsCatalog() {
     fetch(fetchUrl, fetchOptions)
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data);
+        setWorkouts(data);
       })
       .catch((err) => {
-        notyf.error("Error fetching products:", err);
+        notyf.error("Error fetching workouts:", err);
       })
       .finally(() => {
         setLoading(false);
@@ -44,9 +40,11 @@ export default function ProductsCatalog() {
     fetchData();
   }, [user, fetchData]);
 
-  return user.isAdmin === true ? (
-    <AdminView productsData={products} fetchData={fetchData} />
-  ) : (
-    <UserView productsData={products} fetchData={fetchData} loading={loading} />
+  return (
+    <WorkoutView
+      workoutsData={workouts}
+      fetchData={fetchData}
+      loading={loading}
+    />
   );
 }
