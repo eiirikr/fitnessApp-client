@@ -27,13 +27,13 @@ body {
 
 .banner-container {
   position: relative;
-  background-image: url("../public/vecteezy_shopping-online-on-smartphone-and-new-buy-sale-promotion_7153463.jpg");
+  background-image: url("../public/workout-banner.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   padding: 100px 0;
   color: #fff;
-  width: 100vw;
+  width: 100%;
   margin-left: calc(-50vw + 49.2%);
 }
 
