@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import WorkoutsCatalog from "./pages/WorkoutsCatalog";
+import WorkoutView from "./pages/WorkoutView";
 import Home from "./pages/Home";
 import AddWorkout from "./pages/AddWorkout";
 import Logout from "./pages/Logout";
@@ -53,6 +54,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/workouts" element={<WorkoutsCatalog />} />
+              <Route path="/workouts/:workoutId" element={<WorkoutView />} />
               <Route path="/addWorkout" element={<AddWorkout />} />
             </Routes>
           </Container>
